@@ -15,14 +15,19 @@ namespace TestePleno
         public void TestarProgram()
         {
             Fare fare = new Fare();
+            Operator @operator = new Operator();
             fare.Id = Guid.NewGuid();
+            @operator.Id = Guid.NewGuid();
             fare.Value = decimal.Parse("4.5");
-            var operatorCodeInput = "OP01";
+            @operator.Code = "OP01";
             var fareController = new FareController();
-            fareController.CreateFare(fare, operatorCodeInput);
+            var operatorController = new OperatorController();
+
+            operatorController.CreateOperator(@operator);
+            bool fireCreate = fareController.CreateFare(fare, @operator,operatorController.GetOperators());
 
             //Avaliar se é o mesmo ID
-            Assert.Equal(fare.Id,fareController.FareService.GetFareById(fare.Id).Id);
+            Assert.True(fireCreate);
         }
     }
 }

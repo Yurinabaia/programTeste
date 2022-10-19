@@ -37,7 +37,7 @@ namespace TestePleno.Services
         {
             var fare = GetFares();
             //Se for true significar que o operador possuir uma tarifa com mesmo valor no periodo de 6 meses
-            return fare.Exists(x => x.OperatorId == operato.Id && x.Value == value && x.DateCreated.AddMonths(6) <=  DateTime.Now);
+            return fare.Exists(x => x.OperatorId == operato.Id && x.Status == 1 && x.Value == value && x.DateCreated.AddMonths(6) <=  DateTime.Now);
         }
     }
 }

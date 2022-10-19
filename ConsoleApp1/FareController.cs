@@ -11,25 +11,23 @@ namespace TestePleno.Controllers
     public class FareController
     {
         private OperatorService _operatorService;
-        public FareService FareService;
+        private FareService FareService;
 
         public FareController()
         {
+            FareService = new FareService();
             _operatorService = new OperatorService();
         }
 
-        public void CreateFare(Fare fare, string operatorCode)
+        public bool CreateFare(Fare fare,Operator @operator, List<Operator> operators)
         {
-            var selectedOperator = _operatorService.GetOperatorByCode(operatorCode);
-            FareService = new FareService();
-            if (selectedOperator != null)
-            {
-                fare.OperatorId = selectedOperator.Id;
-                //Caso o operador possuir uma tarifa igual no periodo de 6 meses do mesmo valor não vai salvar 
-                if (FareService.ValidatedFareWithOperator(selectedOperator, fare.Value))
-                    return;
-            }
-            FareService.Create(fare);
+          var selectedOperator = _operatorService.GetOperatorByCode(@operator.Code, operators);
+          fare.OperatorId = @operator.Id;
+            //Caso o operador possuir uma tarifa igual no periodo de 6 meses do mesmo valor não vai salvar 
+          if (selectedOperator != null && FareService.ValidatedFareWithOperator(selectedOperator, fare.Value))
+              return false;
+          FareService.Create(fare);
+           return true;
         }
     }
 }

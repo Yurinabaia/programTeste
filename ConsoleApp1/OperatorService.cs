@@ -11,9 +11,8 @@ namespace TestePleno.Services
     {
         public Repository _repository = new Repository();
 
-        public Operator GetOperatorByCode(string code)
+        public Operator GetOperatorByCode(string code, List<Operator> operators)
         {
-            var operators = _repository.GetAll<Operator>();
             var selectedOperator = operators.FirstOrDefault(o => o.Code == code);
             return selectedOperator;
         }

@@ -41,8 +41,8 @@ namespace TestePleno.Services
 
         public List<T> GetAll<T>()
         {
-            var allModels = _fakeDatabase.Where(savedModel => string.IsNullOrEmpty(savedModel.Id.ToString())); ;
-            var convertedModels = allModels.Select(genericModel => (T)genericModel).ToList();
+            var allModels = _fakeDatabase;
+            var convertedModels = allModels?.Select(genericModel => (T)genericModel).ToList();
             return convertedModels;
         }
     }
